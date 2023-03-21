@@ -7,9 +7,14 @@ import anki
 api_token = "..."
 anki_deck = "🗾 Core 2k/6k Japanese"
 
-# --------------------------
-#           FUNCS
-# --------------------------
+class bcolors:
+    CYAN = '\033[96m'
+    GREEN = '\033[92m'
+    YELLOW = '\033[93m'
+    RED = '\033[91m'
+    BLUE = '\033[94m'
+    MAGENTA = '\033[95m'
+    ENDC = '\033[0m'
 
 # --------------------------
 #           MAIN
@@ -23,14 +28,15 @@ anki = anki.get_learned_cards(anki_deck)
 
 # Compare anki to wanikani
 duplicates = []
-for anki_entry in anki:
-    if anki_entry in wanikani:
-        duplicates.append(anki_entry)
+for wk_entry in wanikani:
+    if wk_entry in anki:
+        duplicates.append(wk_entry)
 
 print(" ")
-print("STATS:")
-print(f"> WaniKani vocab : {len(wanikani)}")
-print(f"> Anki vocab     : {len(anki)}")
-print(f"> Total vocab    : {len(wanikani) + len(anki)}")
-print(f"  > Duplicates   : {len(duplicates)}")
-print(f"  > Unique       : {(len(wanikani) + len(anki)) - len(duplicates)}")
+print(bcolors.CYAN    + "STATS:")
+print(bcolors.MAGENTA + f"> WaniKani vocab : {len(wanikani)}")
+print(bcolors.BLUE    + f"> Anki vocab     : {len(anki)}")
+print(bcolors.YELLOW  + f"> Total vocab    : {len(wanikani) + len(anki)}")
+print(bcolors.RED     + f"  > Duplicates   : {len(duplicates)}")
+print(bcolors.GREEN   + f"  > Unique       : {(len(wanikani) + len(anki)) - len(duplicates)}")
+print(bcolors.ENDC)

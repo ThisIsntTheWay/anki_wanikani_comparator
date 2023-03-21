@@ -76,12 +76,8 @@ def get_wk_assignments (api_token):
         with open("wanikani_vocab.txt", "w") as f:
             for subject in subjects:
                 f.write(f"{subject}\n")
+
+        return subjects
         
     except Exception as e:
         print(f"Failure: {str(e)}")
-
-# --------------------------------------------
-# MAIN DEBUG
-token = "..."
-get_wk_assignments(token)
-print("Done")

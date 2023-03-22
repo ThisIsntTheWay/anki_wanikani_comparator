@@ -1,10 +1,11 @@
 import wanikani as wk
 import anki
+import os
 
 # --------------------------
 #           VARS
 # --------------------------
-api_token = "..."
+api_token = "e869ed6e-510d-4ecc-96cd-7a133ea70b00"
 anki_deck = "🗾 Core 2k/6k Japanese"
 
 class bcolors:
@@ -20,11 +21,21 @@ class bcolors:
 #           MAIN
 # --------------------------
 print("### WaniKani ###")
-wanikani = wk.get_wk_assignments(api_token)
+if 'wanikani_vocab.txt' in os.listdir("."):
+    print(bcolors.CYAN + "[i] Reading vocab file." + bcolors.ENDC)
+    with open("wanikani_vocab.txt", 'r') as f:
+        wanikani = f.readlines()
+else:
+    wanikani = wk.get_wk_assignments(api_token)
 
 print("")
 print("### Anki ###")
-anki = anki.get_learned_cards(anki_deck)
+if 'anki_vocab.txt' in os.listdir("."):
+    print(bcolors.CYAN + "[i] Reading vocab file." + bcolors.ENDC)
+    with open("anki_vocab.txt", 'r') as f:
+        anki = f.readlines()
+else:
+    anki = anki.get_learned_cards(anki_deck)
 
 # Compare anki to wanikani
 duplicates = []

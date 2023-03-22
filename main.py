@@ -5,7 +5,7 @@ import os
 # --------------------------
 #           VARS
 # --------------------------
-api_token = "e869ed6e-510d-4ecc-96cd-7a133ea70b00"
+api_token = "..."
 anki_deck = "🗾 Core 2k/6k Japanese"
 
 class bcolors:
@@ -44,10 +44,11 @@ for wk_entry in wanikani:
         duplicates.append(wk_entry)
 
 print(" ")
-print(bcolors.CYAN    + "STATS:")
+print(bcolors.CYAN    +  "-------- STATS --------")
 print(bcolors.MAGENTA + f"> WaniKani vocab : {len(wanikani)}")
 print(bcolors.BLUE    + f"> Anki vocab     : {len(anki)}")
 print(bcolors.YELLOW  + f"> Total vocab    : {len(wanikani) + len(anki)}")
 print(bcolors.RED     + f"  > Duplicates   : {len(duplicates)}")
 print(bcolors.GREEN   + f"  > Unique       : {(len(wanikani) + len(anki)) - len(duplicates)}")
+print(bcolors.CYAN    +  "-----------------------")
 print(bcolors.ENDC)

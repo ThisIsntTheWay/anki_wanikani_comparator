@@ -17,9 +17,9 @@ class bcolors:
     MAGENTA = '\033[95m'
     ENDC = '\033[0m'
 
-# --------------------------
-#           MAIN
-# --------------------------
+# -------------------------- #
+#           MAIN             #
+# -------------------------- #
 print("### WaniKani ###")
 if 'wanikani_vocab.txt' in os.listdir("."):
     print(bcolors.CYAN + "[i] Reading vocab file." + bcolors.ENDC)
@@ -51,4 +51,4 @@ print(bcolors.YELLOW  + f"> Total vocab    : {len(wanikani) + len(anki)}")
 print(bcolors.RED     + f"  > Duplicates   : {len(duplicates)}")
 print(bcolors.GREEN   + f"  > Unique       : {(len(wanikani) + len(anki)) - len(duplicates)}")
 print(bcolors.CYAN    +  "-----------------------")
-print(bcolors.ENDC)
+print(bcolors.ENDC

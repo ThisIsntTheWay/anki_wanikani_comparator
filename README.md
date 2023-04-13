@@ -2,4 +2,4 @@
 Script to detect how many unique vocab words were learned across WaniKani and Anki.  
 Also includes a script to update duplicate Anki cards with a specific tag (e.g. for MorphMan).
 
-![](https://raw.githubusercontent.com/ThisIsntTheWay/anki_wanikani_assimilator/main/resources/terminal.svg?token=GHSAT0AAAAAACAQS6QSMUV5S3HV2RUPAJS6ZBYM5EQ)
+![](https://raw.githubusercontent.com/ThisIsntTheWay/anki_wanikani_assimilator/main/resources/terminal.svg)

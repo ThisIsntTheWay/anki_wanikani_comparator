@@ -13,7 +13,7 @@ $deckName = "🗾 Core 2k/6k Japanese"
 # --------------------------
 #         FUNCTIONS
 # --------------------------
-function Do-AnkiRequest ($request) {
+function Do-AnkiRequest ($Request, $IgnoreResults) {
     $url = 'http://localhost:8765'
     $t = @{
         action = $request.action
@@ -36,9 +36,16 @@ function Do-AnkiRequest ($request) {
     #>
 
     try {
-        return irm $url -Body $body -Method POST -ContentType "application/json"
+        $response = irm $url -Body $body -Method POST -ContentType "application/json"
+        if ($response.error) {
+            throw $response.error
+        } elseif ($response.result.count -le 0 -and !$ignoreResults) {
+            throw "Endpoint returned no results"
+        } else {
+            return $response
+        }
     } catch {
-        throw "Error: $_"
+        throw "Error: $_`nQuery: '$($request.params.keys | % { "$($_): $($request.params[$_])" })'"
     }
 }
 
@@ -52,7 +59,8 @@ try {
     $cardRequest = @{
         action = "findCards"
         params = @{
-            query = "deck:`"$deckName`" is:review -is:suspended"
+            #query = "deck:`"$deckName`" is:review -is:suspended"
+            query = "deck:`"$deckName`" is:new -tag:$targetTag"
         }
     }
 
@@ -92,7 +100,7 @@ try {
         }
     }
 
-    $notesInfo = (Do-AnkiRequest $notesInfoRequest).result | select noteId, tags, fields
+    $notesInfo = (Do-AnkiRequest $notesInfoRequest).result | select noteId, tags, @{N="field";E={$_.fields."Vocabulary-Kanji".value}}
     $notesMissingTag = $notesInfo | ? tags -notcontains $targetTag
 
     if ($notesMissingTag -le 0) {
@@ -104,7 +112,7 @@ try {
     $outFile = "./notesMissingTag.txt"
     Get-Date > $outFile
     $notesMissingTag | % {
-        "$($_.noteId), $($_.fields."Vocabulary-Kanji".value)" >> $outFile
+        "$($_.noteId), $($_.field)" >> $outFile
     }
 
     # Update tags on notes that do not yet have
@@ -118,11 +126,7 @@ try {
         }
     }
 
-    $result = Do-AnkiRequest $addTagRequest
-
-    if ($result.error) {
-        throw "Got error; $($result.error)"
-    }
+    Do-AnkiRequest $addTagRequest -IgnoreResults $true | Out-Null
 
     Write-Host "Done" -f green
 } catch {
